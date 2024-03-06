@@ -8,22 +8,23 @@ import java.util.Scanner;
 
 public class tesJdepend {
     public static void main(String[] args) throws IOException, InterruptedException {
-        String projectUI = "T:\\PhamThanhSon\\jdepend-ui";
-        String pathReport = "T:\\son\\untitled\\rs.xml";
-        String scanProject = "T:\\Library-Assistant-master";
+        String projectUI = "";
+        String pathReport = "";
+        String scanProject = "";
+        String persist = ".";
 
-        try(PrintWriter printWriter = new PrintWriter(new FileOutputStream("rs.xml"))) {
+        try(PrintWriter printWriter = new PrintWriter(new FileOutputStream(projectUI))) {
             JDepend depend = new JDepend(printWriter);
             depend.addDirectory(scanProject);
             depend.analyze();
             System.out.println("done");
-            runCommand(pathReport,projectUI);
+            runCommand(pathReport,projectUI,persist);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
-    public static void runCommand(String pathReport, String projectUI){
-        String npmCommand = "npm run jdepend-ui \""+pathReport+"\" \"xml\"";
+    public static void runCommand(String pathReport, String projectUI,String persist){
+        String npmCommand = "npm run jdepend-ui \""+pathReport+"\" \""+persist+"\"";
         try {
             ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/c", npmCommand);
             processBuilder.directory(new File(projectUI));
